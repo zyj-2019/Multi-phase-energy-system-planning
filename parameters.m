@@ -147,7 +147,7 @@ params.multistage = struct();
 
 % 规划期限设置
 start_year = 2026;  % 第一批设备投产年份
-end_year = 2060;    % 规划终止年份
+end_year = 2030;    % 规划终止年份
 planning_horizon = end_year - start_year + 1;  % 规划期限总年数
 
 % 收集所有设备的寿命

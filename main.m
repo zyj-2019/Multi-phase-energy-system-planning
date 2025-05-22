@@ -6,7 +6,7 @@ function main()
     % 加载系统参数
     params = parameters();
     
-    % 显示多阶段规划设置
+    % 显示多阶段规划设置s
     fprintf('多阶段规划设置：\n');
     fprintf('总阶段数：%d\n', params.multistage.num_stages);
     fprintf('每阶段时间步长：%d\n', params.num_time_steps);
@@ -319,12 +319,13 @@ function main()
     end
     
     % 4. 设置求解器选项
-    options = sdpsettings('solver', 'gurobi', 'verbose', 2);
+    options = sdpsettings('solver', 'gurobi', 'gurobi.IISMethod', 1, 'verbose', 1, 'gurobi.TuneTimeLimit', 60);
    
     % 5. 求解全局优化问题
     fprintf('\n开始求解多阶段优化问题...\n');
     fprintf('优化目标：最小化所有阶段折现后的总成本\n');
     sol = optimize(global_constraints, discounted_total_cost, options);
+    disp(sol.info)
     
     % 6. 处理优化结果
     if sol.problem == 0
@@ -365,6 +366,8 @@ function main()
         plot_results(results, params);
     else
         fprintf('多阶段优化失败，错误代码：%d\n', sol.problem);
+        disp(sol.info);
+        yalmiperror(sol.problem);
     end
 end
 
